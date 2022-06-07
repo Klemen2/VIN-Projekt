@@ -19,4 +19,5 @@ Napake:
 - povečani spredni gumbi
 - povečana odprtina za joystick
 - povečano ohišje za večjo toleranco 
+- povečane luknje za pine
 - odstranjena leva zgornja luknja za vijak
