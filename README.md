@@ -6,6 +6,10 @@ blender source je v razmerju 1cm ... 1m
 
 ### Verzija v1
 **TESTIRANO** potrebno veliko brušenja
+<div align="center" style="flex-wrap: wrap;">
+  <img src="case/v1_front.png" width="400" alt="Zgornja stran">
+   <img src="case/v1_back.png" width="400" alt="Zadnja stran">
+</div>
 
 Napake:
 - premajhno ohišje za 1mm
