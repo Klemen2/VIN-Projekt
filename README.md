@@ -4,7 +4,7 @@
 ## Ohišje
 blender source je v razmerju 1cm ... 1m
 
-### Verzija 1 (v1)
+### Verzija v1
 **TESTIRANO** potrebno veliko brušenja
 
 Napake:
@@ -14,7 +14,7 @@ Napake:
 - preveliki nosilci za gumbe in zamik
 - zamik pinov
 - leva zgornja luknja za vijak je v nerodnem položaju
-### Verzija 2 (v2)
+### Verzija v2
 **NETESTIRANO** Izboljšava v1
 - povečani spredni gumbi
 - povečana odprtina za joystick
