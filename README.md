@@ -2,6 +2,8 @@
 ## Igre
 
 ## Ohišje
+blender source je v razmerju 1m ... 1cm
+
 ### Verzija 1 (v1)
 **TESTIRANO** potrebno veliko brušenja
 
