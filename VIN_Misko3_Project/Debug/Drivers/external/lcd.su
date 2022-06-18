@@ -1,0 +1,5 @@
+../Drivers/external/lcd.c:23:13:LCD_IO_Init	8	static
+../Drivers/external/lcd.c:43:6:LCD_FillRect	32	static
+../Drivers/external/lcd.c:68:6:LCD_Init	8	static
+../Drivers/external/lcd.c:90:6:LCD_SetBacklight	16	static
+../Drivers/external/lcd.c:101:6:LCD_ClearScreen	24	static
