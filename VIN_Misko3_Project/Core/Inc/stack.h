@@ -1,10 +1,8 @@
 /*
  * stack.h
  *
- *	source:  https://github.com/Figglewatts/mazegen
- *
- *	Created on: Apr 16, 2018
- *		Author: Figglewatts
+ *	Created on: Jun 18, 2022
+ *		Author: Klemen2
  *
  */
 
