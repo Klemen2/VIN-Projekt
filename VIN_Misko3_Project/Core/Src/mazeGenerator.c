@@ -103,8 +103,8 @@ int* getMaze(int w, int h){
 	int x = 1;
 	int y = 1;
 
-	stack_push(x_stack, x);
-	stack_push(y_stack, y);
+  stack_push(x_stack, x);
+  stack_push(y_stack, y);
 
 	maze[y * w + x] = 0;
 
