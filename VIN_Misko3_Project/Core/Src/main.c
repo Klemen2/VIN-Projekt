@@ -267,10 +267,8 @@ int y = 0;
 
 void inputControls()
 {
-	if(!KBD_get_button_state(BTN_ESC)) {
-		state = 0;
-	}
-
+	if(!KBD_get_button_state(BTN_ESC)) state = 0;
+	
 	switch(state){
 		case 1:
 		case 2:
@@ -304,7 +302,6 @@ void inputControls()
 			}
 			break;
 	}
-
 }
 
 
@@ -417,11 +414,14 @@ int main(void)
 		}
 	}
 
-	LED_set(LED0, !KBD_get_button_state(BTN_OK));
+	LED_set(LED0, !KBD_get_button_state(BTN_LEFT));
 	LED_set(LED1, !KBD_get_button_state(BTN_DOWN));
 	LED_set(LED2, !KBD_get_button_state(BTN_RIGHT));
 	LED_set(LED3, !KBD_get_button_state(BTN_UP));
-	LED_set(LED4, !KBD_get_button_state(BTN_LEFT));
+	
+	LED_set(LED4, !KBD_get_button_state(BTN_OK));
+	LED_set(LED5, !KBD_get_button_state(BTN_ESC));
+	LED_set(LED6, joystick.x > joystickSensitivity || joystick.x < -joystickSensitivity || joystick.y > joystickSensitivity || joystick.x < -joystickSensitivity);
 	LED_set(LED7, !KBD_get_button_state(BTN_JOY));
 
 	inputControls();
