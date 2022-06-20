@@ -6,7 +6,7 @@
  */
 #include "joystick.h"
 
-void joystick_init(joystick_t *joystick)
+void joystick_init(joystick_t *joystick,int x_offset,int y_offset)
 {
 	joystick->raw_min.x = 780;
 	joystick->raw_max.x = 3330;
@@ -20,13 +20,15 @@ void joystick_init(joystick_t *joystick)
 	joystick->y_k = (float) joystick->out_max.y / (joystick->raw_max.y - joystick->raw_min.y);
 	joystick->n.x = (joystick->raw_max.x+joystick->raw_min.x)/2;
 	joystick->n.y = (joystick->raw_max.y+joystick->raw_min.y)/2;
+	joystick->x_offset = x_offset;
+	joystick->y_offset = y_offset;
 
 }
 
 void joystick_get(coord_t *raw, coord_t *out, joystick_t *joystick)
 {
-	out->x = joystick->x_k*(raw->x-joystick->n.x);
-	out->y = -joystick->y_k*(raw->y-joystick->n.y);
+	out->x = joystick->x_k*(raw->x-joystick->n.x)-joystick->x_offset;
+	out->y = -joystick->y_k*(raw->y-joystick->n.y)-joystick->y_offset;
 }
 
 

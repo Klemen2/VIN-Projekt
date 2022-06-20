@@ -268,7 +268,7 @@ int y = 0;
 void inputControls()
 {
 	if(!KBD_get_button_state(BTN_ESC)) state = 0;
-	
+
 	switch(state){
 		case 1:
 		case 2:
@@ -310,7 +310,9 @@ void inputControls()
 /**
   * @brief  The application entry point.
   * @retval int
+  *
   */
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -367,7 +369,7 @@ int main(void)
   LED_init();
   KBD_init();
   SCI_init();
-  joystick_init(&joystick);
+  joystick_init(&joystick, -6, 6);
 
 
   LCD_Init();
@@ -403,6 +405,7 @@ int main(void)
 	HAL_ADC_Stop(&hadc4);
 
 	joystick_get(&joystick_raw, &joystick_out, &joystick);
+	//printf("x:%d y:%d\r\n",joystick_out.x,joystick_out.y); // 115200
 
 	if(XPT2046_TouchPressed()) {
 		uint16_t x = 0, y = 0;
@@ -414,14 +417,14 @@ int main(void)
 		}
 	}
 
-	LED_set(LED0, !KBD_get_button_state(BTN_LEFT));
-	LED_set(LED1, !KBD_get_button_state(BTN_DOWN));
-	LED_set(LED2, !KBD_get_button_state(BTN_RIGHT));
-	LED_set(LED3, !KBD_get_button_state(BTN_UP));
-	
+	LED_set(LED0, !KBD_get_button_state(BTN_UP));
+	LED_set(LED1, !KBD_get_button_state(BTN_RIGHT));
+	LED_set(LED2, !KBD_get_button_state(BTN_DOWN));
+	LED_set(LED3, !KBD_get_button_state(BTN_LEFT));
+
 	LED_set(LED4, !KBD_get_button_state(BTN_OK));
 	LED_set(LED5, !KBD_get_button_state(BTN_ESC));
-	LED_set(LED6, joystick.x > joystickSensitivity || joystick.x < -joystickSensitivity || joystick.y > joystickSensitivity || joystick.x < -joystickSensitivity);
+	LED_set(LED6, (joystick_out.x > joystickSensitivity || joystick_out.x < -joystickSensitivity || joystick_out.y > joystickSensitivity || joystick_out.y < -joystickSensitivity));
 	LED_set(LED7, !KBD_get_button_state(BTN_JOY));
 
 	inputControls();
