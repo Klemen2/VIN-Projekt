@@ -1,11 +1,3 @@
-/*
- * stack.h
- *
- *	Created on: Jun 18, 2022
- *		Author: Klemen2
- *
- */
-
 #ifndef INC_STACK_H_
 #define INC_STACK_H_
 
