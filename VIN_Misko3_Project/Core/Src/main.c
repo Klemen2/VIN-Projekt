@@ -87,9 +87,16 @@ UG_GUI gui;
 int swidth;
 int sheight;
 uint16_t touch_x = 0, touch_y = 0;
+coord_t joystick_out;
+
+int joystickSensitivity = 17;
+
+// Main menu
+int pages = 3;
 uint8_t state = 0;
 uint8_t menuSelect = 0;
-coord_t joystick_out;
+
+// Maze
 
 int menu[] = {
 		1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -108,25 +115,16 @@ int menu[] = {
 };
 
 int* maze;
-int playerLocation = 0;
-int cellSize = 21;
-int sizeX = 29;
-int sizeY = 19;
-int playerSize = 5;
-int offsetX = 12;
-int offsetY = 40;
-
-int joystickSensitivity = 17;
-
-int pages = 3;
+int maze_playerLocation = 0;
+int maze_playerSize = 5;
+int maze_cellSize = 21;
+int maze_sizeX = 29;
+int maze_sizeY = 19;
+int maze_offsetX = 12;
+int maze_offsetY = 40;
 
 char timer[8];
 int time = 0;
-
-void setPlayerLocation(){
-	playerLocation = sizeX*(sizeY-2)+1;
-}
-
 
 void MainMenuRefresh(){
 	char index[2];
@@ -139,34 +137,34 @@ void MainMenuRefresh(){
 			UG_DrawRoundFrame( 70 , 40 , 250 , 220 , 10, C_WHITE);
 			drawMaze(menu,13,13,97,70,21,0);
 			UG_PutString(126,109,"EASY\nMAZE");
-			cellSize = 31;
-			sizeX = 21;
-			sizeY = 13;
-			playerSize = 7;
-			offsetX = 5;
-			offsetY = 43;
+			maze_cellSize = 31;
+			maze_sizeX = 21;
+			maze_sizeY = 13;
+			maze_playerSize = 7;
+			maze_offsetX = 5;
+			maze_offsetY = 43;
 			break;
 		case 1:
 			UG_DrawRoundFrame( 70 , 40 , 250 , 220 , 10, C_WHITE);
 			drawMaze(menu,13,13,97,70,21,0);
 			UG_PutString(109,109,"NORMAL\n MAZE");
-			cellSize = 21;
-			sizeX = 29;
-			sizeY = 19;
-			playerSize = 5;
-			offsetX = 12;
-			offsetY = 40;
+			maze_cellSize = 21;
+			maze_sizeX = 29;
+			maze_sizeY = 19;
+			maze_playerSize = 5;
+			maze_offsetX = 12;
+			maze_offsetY = 40;
 			break;
 		case 2:
 			UG_DrawRoundFrame( 70 , 40 , 250 , 220 , 10, C_WHITE);
 			drawMaze(menu,13,13,97,70,21,0);
 			UG_PutString(126,109,"HARD\nMAZE");
-			cellSize = 12;
-			sizeX = 51;
-			sizeY = 33;
-			playerSize = 2;
-			offsetX = 10;
-			offsetY = 40;
+			maze_cellSize = 12;
+			maze_sizeX = 51;
+			maze_sizeY = 33;
+			maze_playerSize = 2;
+			maze_offsetX = 10;
+			maze_offsetY = 40;
 			break;
 		default:
 			UG_DrawRoundFrame( 70 , 40 , 250 , 220 , 10, C_BLUE);
@@ -175,34 +173,6 @@ void MainMenuRefresh(){
 	}
 }
 
-void DrawMazePlayer(int posX, int posY){
-	time++;
-	int locX = playerLocation%sizeX/2*cellSize + offsetX + (int)cellSize/2+1;
-	int locY = (int)(playerLocation/(sizeX*2))*cellSize + offsetY + (int)cellSize/2+1;
-	UG_FillCircle(locX, locY,  playerSize , C_BLACK);
-	playerLocation+=posX;
-	playerLocation+=posY*sizeX;
-	if(playerLocation<0 || playerLocation > sizeX*sizeY-1 || maze[playerLocation]==1 ){
-		playerLocation-=posX;
-		playerLocation-=posY*sizeX;
-		UG_FillCircle(locX, locY,  playerSize , C_YELLOW);
-		return;
-	}
-	playerLocation+=posX;
-	playerLocation+=posY*sizeX;
-	locX = playerLocation%sizeX/2*cellSize + offsetX + (int)cellSize/2+1;
-	locY = (int)(playerLocation/(sizeX*2))*cellSize + offsetY + (int)cellSize/2+1;
-	UG_FillCircle(locX,  locY ,  playerSize , C_YELLOW);
-	if(playerLocation == sizeX*2-2 ) {
-		maze = getMaze(sizeX,sizeY);
-		UG_FillFrame( 98 , 0 , swidth , 30 , C_BLUE);
-		UG_FillFrame( 0 , 30 , swidth , sheight , C_BLACK);
-		setPlayerLocation();
-		drawMaze(maze,sizeX,sizeY,offsetX,offsetY,cellSize,1);
-		DrawMazePlayer(0,0);
-		time = 0;
-	}
-}
 
 void MainMenu(){
 	UG_FillScreen(C_BLACK);
@@ -219,7 +189,40 @@ void MainMenu(){
 	MainMenuRefresh();
 }
 
-void DrawStatic(){
+void setPlayerLocation(){
+	maze_playerLocation = maze_sizeX*(maze_sizeY-2)+1;
+}
+
+void mazeControls(int posX, int posY){
+	time++;
+	int locX = maze_playerLocation%maze_sizeX/2*maze_cellSize + maze_offsetX + (int)maze_cellSize/2+1;
+	int locY = (int)(maze_playerLocation/(maze_sizeX*2))*maze_cellSize + maze_offsetY + (int)maze_cellSize/2+1;
+	UG_FillCircle(locX, locY,  maze_playerSize , C_BLACK);
+	maze_playerLocation+=posX;
+	maze_playerLocation+=posY*maze_sizeX;
+	if(maze_playerLocation<0 || maze_playerLocation > maze_sizeX*maze_sizeY-1 || maze[maze_playerLocation]==1 ){
+		maze_playerLocation-=posX;
+		maze_playerLocation-=posY*maze_sizeX;
+		UG_FillCircle(locX, locY,  maze_playerSize , C_YELLOW);
+		return;
+	}
+	maze_playerLocation+=posX;
+	maze_playerLocation+=posY*maze_sizeX;
+	locX = maze_playerLocation%maze_sizeX/2*maze_cellSize + maze_offsetX + (int)maze_cellSize/2+1;
+	locY = (int)(maze_playerLocation/(maze_sizeX*2))*maze_cellSize + maze_offsetY + (int)maze_cellSize/2+1;
+	UG_FillCircle(locX,  locY ,  maze_playerSize , C_YELLOW);
+	if(maze_playerLocation == maze_sizeX*2-2 ) {
+		maze = getMaze(maze_sizeX,maze_sizeY);
+		UG_FillFrame( 98 , 0 , swidth , 30 , C_BLUE);
+		UG_FillFrame( 0 , 30 , swidth , sheight , C_BLACK);
+		setPlayerLocation();
+		drawMaze(maze,maze_sizeX,maze_sizeY,maze_offsetX,maze_offsetY,maze_cellSize,1);
+		mazeControls(0,0);
+		time = 0;
+	}
+}
+
+void staticContent(){
 	UG_FillScreen(C_BLACK);
 	switch(state){
 	case 1:
@@ -230,10 +233,10 @@ void DrawStatic(){
 			UG_SetBackcolor(C_BLUE);
 			UG_PutString(0,1,"Moves: ");
 			UG_FontSelect(&FONT_16X26);
-			maze = getMaze(sizeX,sizeY);
+			maze = getMaze(maze_sizeX,maze_sizeY);
 			setPlayerLocation();
-			drawMaze(maze,sizeX,sizeY,offsetX,offsetY,cellSize,1);
-			DrawMazePlayer(0,0);
+			drawMaze(maze,maze_sizeX,maze_sizeY,maze_offsetX,maze_offsetY,maze_cellSize,1);
+			mazeControls(0,0);
 			time = 0;
 		break;
 	default:
@@ -253,20 +256,21 @@ void touchInput(){
 				MainMenuRefresh();
 		}else{
 			state = menuSelect+1;
-			DrawStatic();
+			staticContent();
 		}
 		 HAL_Delay(150);
 	}
 }
 
+int x = 0;
+int y = 0;
 
-void Game()
+void inputControls()
 {
 	if(!KBD_get_button_state(BTN_ESC)) {
 		state = 0;
 	}
-	int x = 0;
-	int y = 0;
+
 	switch(state){
 		case 1:
 		case 2:
@@ -279,13 +283,25 @@ void Game()
 			else if(!KBD_get_button_state(BTN_UP) || joystick_out.y < -joystickSensitivity) y = -1;
 			else if(!KBD_get_button_state(BTN_DOWN) || joystick_out.y > joystickSensitivity) y = 1;
 			if(x!= 0 || y != 0){
-				DrawMazePlayer(x,y);
+				mazeControls(x,y);
 				HAL_Delay(150);
 			}
 			break;
 		default:
-			state = 0;
-			MainMenu();
+			if(menuSelect>0 && (!KBD_get_button_state(BTN_LEFT) || joystick_out.x < -joystickSensitivity)){
+				menuSelect--;
+				MainMenuRefresh();
+				HAL_Delay(150);
+			}
+			else if(menuSelect<pages && (!KBD_get_button_state(BTN_RIGHT) || joystick_out.x > joystickSensitivity)){
+				menuSelect++;
+				MainMenuRefresh();
+				HAL_Delay(150);
+			}
+			else if(!KBD_get_button_state(BTN_OK) || !KBD_get_button_state(BTN_JOY)){
+				state = menuSelect+1;
+				staticContent();
+			}
 			break;
 	}
 
@@ -406,35 +422,10 @@ int main(void)
 	LED_set(LED2, !KBD_get_button_state(BTN_RIGHT));
 	LED_set(LED3, !KBD_get_button_state(BTN_UP));
 	LED_set(LED4, !KBD_get_button_state(BTN_LEFT));
-
 	LED_set(LED7, !KBD_get_button_state(BTN_JOY));
 
-	switch(state){
-		case 1:
-		case 2:
-		case 3:
-			Game();
-			break;
-		default:
-			if(menuSelect>0 && (!KBD_get_button_state(BTN_LEFT) || joystick_out.x < -joystickSensitivity)){
-				menuSelect--;
-				MainMenuRefresh();
-				HAL_Delay(150);
-			}
-			else if(menuSelect<pages && (!KBD_get_button_state(BTN_RIGHT) || joystick_out.x > joystickSensitivity)){
-				menuSelect++;
-				MainMenuRefresh();
-				HAL_Delay(150);
-			}
-			else if(!KBD_get_button_state(BTN_OK) || !KBD_get_button_state(BTN_JOY)){
-				state = menuSelect+1;
-				DrawStatic();
-			}
-			break;
-		}
-
-	}
-
+	inputControls();
+  }
   /* USER CODE END 3 */
 }
 

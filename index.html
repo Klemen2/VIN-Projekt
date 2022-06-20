@@ -31,7 +31,10 @@
     <div class="content">
         <div class="wrapper">
             <div class="title">Making a maze game on STM32G4</div>
-            The goal of the project is to implement a maze game using C programing language.
+            The goal of the project is to implement a maze game using C programing language. I'll be using a 
+            <a href="https://github.com/LAPSyLAB/Misko3_Docs_and_Projects">demo project<sup class="print">1</sup></a> that allready has 
+            implemented some basic functionalities and additional drivers. 
+            <span class="print"><br><sup>1 </sup>https://github.com/LAPSyLAB/Misko3_Docs_and_Projects</span>
             <h1 id="parts">Parts list</h1>
             <ul>
                 <li><a href="http://lpvo.fe.uni-lj.si/izobrazevanje/1-stopnja-vs/osnove-mikroprocesorske-elektronike-ome/">Miško 3</a> an STM32G474QETx board
@@ -46,25 +49,62 @@
             as well as connect the joystick and srew it in place.
             <div class="center">
                 <figure style="width: 372px">
-                    <img src="soldering.png">
+                    <img src="images/soldering.png">
                     <figcaption>Miško 3 - soldering reset button</figcaption>
                 </figure>
             </div>
             The final product should looks like this:
             <div class="imageRow pagebreak">
                 <figure>
-                    <img src="front.png">
+                    <img src="images/front.png">
                     <figcaption>Miško 3 - front side</figcaption>
                 </figure>
                 <figure>
-                    <img src="back.png">
+                    <img src="images/back.png">
                     <figcaption>Miško 3 - back side</figcaption>
                 </figure>
             </div>
             <h1 id="maze">Maze</h1>
+            There are many different <a href="https://en.wikipedia.org/wiki/Maze">types of mazes<sup class="print">1</sup></a>: standard, circular, block, number... For this project I decided to go for a standard 
+            maze without entrance and exit where the goal is to find the shortest path from one position to another.
+            <span class="print"><br><sup>1 </sup>https://en.wikipedia.org/wiki/Maze</span>
+            <div class="imageRow">
+                <figure>
+                    <img src="images/Maze_Type_Standard.png">
+                    <figcaption>Standard maze with entrance and exit</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/Maze_Type_Circular.png">
+                    <figcaption>Circular maze</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/Maze_Type_Block.png">
+                    <figcaption>Block maze</figcaption>
+                </figure>
+            </div>
             <h2>Generating</h2>
+            There are many <a href="https://en.wikipedia.org/wiki/Maze_generation_algorithm">different aproches for randomly generating mazes<sup class="print">1</sup></a> 
+            such as randomized depth-first search, Kruskal's algorithm, Prim's algorithm... The algorithm that I decided to implement is randomized depth-first search with iterative implementation. 
+            And before I implement everything from scratch I search the web and found just what I needed on <a href="https://github.com/Figglewatts/mazegen">Figglewatts's github<sup class="print">2</sup></a>
+            which I modified a little to suit my needs.
+            <p>Iterative implementation of dept-first search is implemented using a stack which we have to implement first before we even think of 
+            making algorithm. 
+            <span class="print"><br><sup>1 </sup>https://en.wikipedia.org/wiki/Maze_generation_algorithm</span>
+            <span class="print"><br><sup>2 </sup>https://github.com/Figglewatts/mazegen</span>
+            <script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2FKlemen2%2FVIN-Projekt%2Fblob%2F4c6d7071b529f057bc0709ffbbbd71723e219d58%2FVIN_Misko3_Project%2FCore%2FInc%2Fstack.h%23L8-L47&style=github&showBorder=on&showLineNumbers=on&showFileMeta=on&showCopy=on"></script>
+            
+            <script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2FKlemen2%2FVIN-Projekt%2Fblob%2F7e4f91c3df70d4e130c4ccf83daa991cf3d81703%2FVIN_Misko3_Project%2FCore%2FSrc%2FmazeGenerator.c%23L24-L92&style=github&showBorder=on&showLineNumbers=on&showFileMeta=on&showCopy=on"></script>
+            
+            <script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2FKlemen2%2FVIN-Projekt%2Fblob%2F7e4f91c3df70d4e130c4ccf83daa991cf3d81703%2FVIN_Misko3_Project%2FCore%2FSrc%2FmazeGenerator.c%23L95-L117&style=github&showBorder=on&showLineNumbers=on&showFileMeta=on&showCopy=on"></script>
+           
             <h2>Visualising</h2>
+            <script src="https://emgithub.com/embed.js?target=https%3A%2F%2Fgithub.com%2FKlemen2%2FVIN-Projekt%2Fblob%2F7e4f91c3df70d4e130c4ccf83daa991cf3d81703%2FVIN_Misko3_Project%2FCore%2FSrc%2FmazeGenerator.c%23L119-L152&style=github&showBorder=on&showLineNumbers=on&showFileMeta=on&showCopy=on"></script>
+
             <h1 id="game">Game</h1>
+            <h2>Main menu</h2>
+
+            <h2>Player movement</h2>
+
             <h1 id="case">Case</h1>
             Since standalone Miško is not the most comfortable thing to hold in hands I aslo designed a cases for easier useage of it.
             The cases were designed in blender and you can find them <a class="noprint" href="https://github.com/Klemen2/VIN-Projekt/tree/main/case">here</a><span class="print">https://github.com/Klemen2/VIN-Projekt/tree/main/case</span> 
@@ -83,11 +123,11 @@
             use appropiet screws, i'm using 10mm long screws Ø2 that I got from an old Lenovo laptop.
             <div class="imageRow">
                 <figure>
-                    <img src="case/v1_front.png">
+                    <img src="images/v1_front.png">
                     <figcaption>Case version 1 - front side</figcaption>
                 </figure>
                 <figure>
-                    <img src="case/v1_back.png">
+                    <img src="images/v1_back.png">
                     <figcaption>Case version 1 - back side</figcaption>
                 </figure>
             </div>
