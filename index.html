@@ -24,7 +24,7 @@
                 <a href="#maze">Maze</a> |
                 <a href="#game">Game</a> |
                 <a href="#case">Case</a> |
-                <a href="https://github.com/Klemen2/VIN-Projekt/tree/main/VIN_Misko3_Project">Source code</a> 
+                <a href="https://github.com/Klemen2/VIN-Projekt/tree/main/VIN_Misko3_Project">Source code</a>
             </div>
         </div>
     </div>
@@ -34,23 +34,24 @@
             The goal of the project is to implement a maze game using C programing language.
             <h1 id="parts">Parts list</h1>
             <ul>
-                <li><a href="http://lpvo.fe.uni-lj.si/izobrazevanje/1-stopnja-vs/osnove-mikroprocesorske-elektronike-ome/">Miško
-                        3</a> an STM32G474QETx LQFP128 board that includes:
-                    <ul>
-                        <li>7 buttons (back reset button + 6 front buttons)</li>
-                        <li>Joystick module</li>
-                        <li>Touch screen (XPT2046)</li>
-                    </ul>
+                <li><a href="http://lpvo.fe.uni-lj.si/izobrazevanje/1-stopnja-vs/osnove-mikroprocesorske-elektronike-ome/">Miško 3</a> an STM32G474QETx board
                 </li>
             </ul>
             <h1 id="misko">Miško 3</h1>
+            Miško 3 is a development board for learning programming on microcontroller. The name stands for
+            Microcontroller Student Kit (<b>MI</b>krokrmilniški <b>Š</b>tudentski <b>KO</b>mplet) 3rd generation and it's powerd by
+            STM32G474QETx, an ARM-based 32-bit MCU. It has 12 PWM pins, 4 serial communications (RX, TX), 30 digital pins, 12 analog pins and can supply 3.3V, 5V and 12V.
+            <br>You can learn more about the MCU <a class="noprint" href="https://www.st.com/resource/en/reference_manual/rm0440-stm32g4-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf">here</a><span class="print">on https://www.st.com/resource/en/reference_manual/rm0440-stm32g4-series-advanced-armbased-32bit-mcus-stmicroelectronics.pdf </span>.
+            <p>Before we can use the board, we need to solder on 7 buttons, 8 leds, connector headers and the screen (XPT2046) 
+            as well as connect the joystick and srew it in place.
             <div class="center">
                 <figure style="width: 372px">
                     <img src="soldering.png">
                     <figcaption>Miško 3 - soldering reset button</figcaption>
                 </figure>
             </div>
-            <div class="imageRow">
+            The final product should looks like this:
+            <div class="imageRow pagebreak">
                 <figure>
                     <img src="front.png">
                     <figcaption>Miško 3 - front side</figcaption>
@@ -65,19 +66,19 @@
             <h2>Visualising</h2>
             <h1 id="game">Game</h1>
             <h1 id="case">Case</h1>
-            The cases were designed in blender and you can find them <a
-                href="https://github.com/Klemen2/VIN-Projekt/tree/main/case">here</a> with .stl files ready to be 3D
-            printed.
+            Since standalone Miško is not the most comfortable thing to hold in hands I aslo designed a cases for easier useage of it.
+            The cases were designed in blender and you can find them <a class="noprint" href="https://github.com/Klemen2/VIN-Projekt/tree/main/case">here</a><span class="print">https://github.com/Klemen2/VIN-Projekt/tree/main/case</span> 
+            with .stl files ready to be 3D printed.
             <h2>Version 1</h2>
             Version 1 of the case has a few flaws. Before printing the case needs to be scaled to match 3D printer
             tolerances, since it's made for a super tight fit and will need a lot of sanding if you decide not to do so.
-            There are some other areas that needs sanding eaither way such as joystic hole, since it's too small and
+            There are some other areas that needs sanding eaither way such as joystick hole, since it's too small and
             shifted,
             holes for the pins on the back, due to one of them being shifted, and the buttons guides, they are way too
             big.
             The front buttons are also too small for comfortable use, but it's much better than to use it without a
             case.
-            <br>If the case doesn't stay toggether you'll also need to widen 3 holes on top and bottom side (the hole
+            <p>If the case doesn't stay toggether you'll also need to widen 3 holes on top and bottom side (the hole
             next to the reset button does not work well) and
             use appropiet screws, i'm using 10mm long screws Ø2 that I got from an old Lenovo laptop.
             <div class="imageRow">
@@ -91,10 +92,22 @@
                 </figure>
             </div>
             <h2>Version 2</h2>
-            In version 2 of the case I fixed the issues with the version 1 of the case, such as scaling, bigger hole for
-            joystick & pins, bigger front buttons (the back reset button is still a small one so you don't press it by accident). 
-            <br>I also removed the screw hole next to the reset button since there just isn't enough space for it.
-            <br><b>This vesrion of the case is not tested yet.</b>
+            In version 2 of the case I fixed issues that I had with the version 1 of the case, such as scaling, bigger hole for
+            joystick and pins, bigger front buttons (the back reset button is still a small so you don't press it by accident).
+            I also removed the screw hole next to the reset button since there just isn't enough space for it.
+            <br><b>This vesrion of the case has not been tested yet.</b>
+            <!--
+            <div class="imageRow">
+                <figure>
+                    <img src="case/v2_front.png">
+                    <figcaption>Case version 2 - front side</figcaption>
+                </figure>
+                <figure>
+                    <img src="case/v2_back.png">
+                    <figcaption>Case version 2 - back side</figcaption>
+                </figure>
+            </div>
+            -->
         </div>
     </div>
     <footer>
