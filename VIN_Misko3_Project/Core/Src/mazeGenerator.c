@@ -25,7 +25,7 @@ void carve_maze(int* maze, unsigned width, unsigned height, Stack* x_stack, Stac
 {
 	while (!stack_isempty(x_stack))
 	{
-		shuffle(directions, 4);
+		shuffle(directions, 4); // randomizes directions
 
 		int x = stack_pop(x_stack);
 		int y = stack_pop(y_stack);
@@ -93,12 +93,9 @@ void carve_maze(int* maze, unsigned width, unsigned height, Stack* x_stack, Stac
 
 
 int* getMaze(int w, int h){
-	int* maze = (int*) malloc(sizeof(int)*w*h);
-	for(int i = 0; i<h*w;i++){
-	    maze[i] = 1;
-	}
-
-
+	int* maze = (int*) malloc(sizeof(int)*w*h); // allocate space for a maze
+	for(int i = 0; i<h*w;i++)  maze[i] = 1; // fill a maze with walls
+	
 	Stack* x_stack = stack_create(64);
 	Stack* y_stack = stack_create(64);
 
@@ -108,7 +105,6 @@ int* getMaze(int w, int h){
 
 	stack_push(x_stack, x);
 	stack_push(y_stack, y);
-
 
 	maze[y * w + x] = 0;
 
@@ -124,7 +120,6 @@ void drawMaze(int* maze, int sizeX, int sizeY, int startX, int startY, int cellS
 	int x, y;
 	for(int i = 0; i<sizeY-1; i+=2){
 		for(int j = 0; j<sizeX-1; j+=2){
-
 			if(maze[i*sizeX+j]==1){
 				x = startX+(int)(j/2)*cellSize;
 				y = startY+(int)(i/2)*cellSize;
@@ -134,8 +129,8 @@ void drawMaze(int* maze, int sizeX, int sizeY, int startX, int startY, int cellS
 				if(maze[i*sizeX+j+1]==1){
 					 UG_DrawLine(x,y,x+cellSize,y,C_WHITE);
 				}
+			}
 		}
-	}
 	}
 	y = startY+(int)(sizeY/2)*cellSize;
 	int maxy = (sizeY-1)*sizeX;
@@ -152,7 +147,6 @@ void drawMaze(int* maze, int sizeX, int sizeY, int startX, int startY, int cellS
 			UG_DrawLine(x,y,x,y+cellSize,C_WHITE);
 		}
 	}
-
 
 	if(finish) UG_DrawFrame(x-cellSize+1, startY+1, x-1, startY+cellSize-1, C_GREEN);
 }
