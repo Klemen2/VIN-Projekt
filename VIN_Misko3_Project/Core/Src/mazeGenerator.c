@@ -1,11 +1,3 @@
-/*
- * mazeGenerator.c
- *
- *   Created on: Jun 18, 2022
- *      Author: Klemen2
- */
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
