@@ -124,7 +124,7 @@ int maze_offsetX = 12;
 int maze_offsetY = 40;
 
 char timer[8];
-int time = 0;
+int score = 0;
 
 void MainMenuRefresh(){
 	char index[2];
@@ -194,20 +194,14 @@ void setPlayerLocation(){
 }
 
 void mazeControls(int posX, int posY){
-	time++;
+	score++;
+	int newLocation = maze_playerLocation + posX + posY*maze_sizeX;
+	if(newLocation<0 || newLocation > maze_sizeX*maze_sizeY-1 || maze[newLocation]==1 )
+		return;
 	int locX = maze_playerLocation%maze_sizeX/2*maze_cellSize + maze_offsetX + (int)maze_cellSize/2+1;
 	int locY = (int)(maze_playerLocation/(maze_sizeX*2))*maze_cellSize + maze_offsetY + (int)maze_cellSize/2+1;
 	UG_FillCircle(locX, locY,  maze_playerSize , C_BLACK);
-	maze_playerLocation+=posX;
-	maze_playerLocation+=posY*maze_sizeX;
-	if(maze_playerLocation<0 || maze_playerLocation > maze_sizeX*maze_sizeY-1 || maze[maze_playerLocation]==1 ){
-		maze_playerLocation-=posX;
-		maze_playerLocation-=posY*maze_sizeX;
-		UG_FillCircle(locX, locY,  maze_playerSize , C_YELLOW);
-		return;
-	}
-	maze_playerLocation+=posX;
-	maze_playerLocation+=posY*maze_sizeX;
+	maze_playerLocation = newLocation + posX + posY*maze_sizeX;
 	locX = maze_playerLocation%maze_sizeX/2*maze_cellSize + maze_offsetX + (int)maze_cellSize/2+1;
 	locY = (int)(maze_playerLocation/(maze_sizeX*2))*maze_cellSize + maze_offsetY + (int)maze_cellSize/2+1;
 	UG_FillCircle(locX,  locY ,  maze_playerSize , C_YELLOW);
@@ -218,7 +212,7 @@ void mazeControls(int posX, int posY){
 		setPlayerLocation();
 		drawMaze(maze,maze_sizeX,maze_sizeY,maze_offsetX,maze_offsetY,maze_cellSize,1);
 		mazeControls(0,0);
-		time = 0;
+		score = 0;
 	}
 }
 
@@ -237,7 +231,7 @@ void staticContent(){
 			setPlayerLocation();
 			drawMaze(maze,maze_sizeX,maze_sizeY,maze_offsetX,maze_offsetY,maze_cellSize,1);
 			mazeControls(0,0);
-			time = 0;
+			score = 0;
 		break;
 	default:
 			state = 0;
@@ -277,7 +271,7 @@ void inputControls()
 		case 2:
 		case 3:
 			x = 0; y = 0;
-			sprintf(timer, "%d", time);
+			sprintf(timer, "%d", score);
 			UG_PutString(98,1,timer);
 			if(!KBD_get_button_state(BTN_LEFT) || joystick_out.x < -joystickSensitivity) x = -1;
 			else if(!KBD_get_button_state(BTN_RIGHT) || joystick_out.x > joystickSensitivity) x = 1;
