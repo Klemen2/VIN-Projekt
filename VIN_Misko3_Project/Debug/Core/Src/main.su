@@ -1,0 +1,11 @@
+../Core/Src/main.c:79:6:UserPixelSetFunction	24	static
+../Core/Src/main.c:129:6:MainMenuRefresh	32	static
+../Core/Src/main.c:177:6:MainMenu	16	static
+../Core/Src/main.c:192:6:setPlayerLocation	4	static
+../Core/Src/main.c:196:6:mazeControls	56	static
+../Core/Src/main.c:225:6:staticContent	40	static
+../Core/Src/main.c:249:6:touchInput	8	static
+../Core/Src/main.c:268:6:inputControls	8	static
+../Core/Src/main.c:319:5:main	72	static
+../Core/Src/main.c:442:6:SystemClock_Config	88	static
+../Core/Src/main.c:492:6:Error_Handler	4	static,ignoring_inline_asm

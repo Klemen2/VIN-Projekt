@@ -247,7 +247,7 @@ void staticContent(){
 }
 
 void touchInput(){
-	if(state < 1 || state > 5){
+	if(state < 1 || state > pages){
 		if(menuSelect >0 && touch_x < (unsigned) 60 ){
 				menuSelect--;
 				MainMenuRefresh();
@@ -267,7 +267,10 @@ int y = 0;
 
 void inputControls()
 {
-	if(!KBD_get_button_state(BTN_ESC)) state = 0;
+	if(!KBD_get_button_state(BTN_ESC) && state != 0) {
+		state = 0;
+		MainMenu();
+	}
 
 	switch(state){
 		case 1:
