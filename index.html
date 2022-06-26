@@ -23,8 +23,20 @@
                     <path fill="currentColor" d="M1408 992v480c0 35 -29 64 -64 64h-384v-384h-256v384h-384c-35 0 -64 -29 -64 -64v-480c0 -2 1 -4 1 -6l575 -474l575 474c1 2 1 4 1 6zM1631 923l-62 74c-5 6 -13 10 -21 11h-3c-8 0 -15 -2 -21 -7l-692 -577l-692 577c-7 5 -15 8 -24 7c-8 -1 -16 -5 -21 -11l-62 -74 c-11 -13 -9 -34 4 -45l719 -599c42 -35 110 -35 152 0l244 204v-195c0 -18 14 -32 32 -32h192c18 0 32 14 32 32v408l219 182c13 11 15 32 4 45z"/>
                  </svg></a> |
                 <a href="#misko">Miško 3</a> |
-                <a href="#maze">Maze</a> |
-                <a href="#game">Game</a> |
+                <span class="dropdown">
+                    <a href="#maze">Maze</a> |
+                    <div class="submenu">
+                        <a href="#maze-gen">Maze generation</a> |
+                        <a href="#maze-vis">Maze visualising</a> 
+                    </div>
+                </span>
+                <span class="dropdown">
+                <a href="#game">Interactions</a> |
+                <div class="submenu">
+                    <a href="#game-menu">Main menu</a> |
+                    <a href="#game-mazeplayer">Maze game</a>
+                    </div>
+                </span>
                 <a href="#case">Case</a> |
                 <a href="https://github.com/Klemen2/VIN-Projekt/tree/main/VIN_Misko3_Project">Source code</a>
             </div>
@@ -37,6 +49,15 @@
             <a href="https://github.com/LAPSyLAB/Misko3_Docs_and_Projects">demo project<sup class="print">1</sup></a> that allready has 
             implemented some basic functionalities and additional drivers. 
             <span class="print"><br><sup>1 </sup>https://github.com/LAPSyLAB/Misko3_Docs_and_Projects</span>
+            <div class="center">
+                <figure>
+                    <video width="400" controls>
+                        <source src="images/gameplay.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <figcaption><span class="print">Video of a</span><span class="noprint">A</span> maze game gameplay on Miško 3</figcaption>
+                </figure>
+            </div>
             <h1 id="parts">Parts list</h1>
             <ul>
                 <li><a href="http://lpvo.fe.uni-lj.si/izobrazevanje/1-stopnja-vs/osnove-mikroprocesorske-elektronike-ome/">Miško 3</a> an STM32G474QETx board
@@ -51,79 +72,136 @@
             as well as connect the joystick and srew it in place.
             <div class="center">
                 <figure style="width: 372px">
-                    <img src="images/soldering.png">
+                    <img src="images/soldering.png" loading="lazy">
                     <figcaption>Miško 3 - soldering reset button</figcaption>
                 </figure>
             </div>
             The final product should looks like this:
             <div class="imageRow pagebreak">
                 <figure>
-                    <img src="images/front.png">
+                    <img src="images/front.png" loading="lazy">
                     <figcaption>Miško 3 - front side</figcaption>
                 </figure>
                 <figure>
-                    <img src="images/back.png">
+                    <img src="images/back.png" loading="lazy">
                     <figcaption>Miško 3 - back side</figcaption>
                 </figure>
             </div>
             <h1 id="maze">Maze</h1>
-            There are many different <a href="https://en.wikipedia.org/wiki/Maze">types of mazes<sup class="print">1</sup></a>: standard, circular, block, number... For this project I decided to go for a standard 
+            There are many different <a href="https://en.wikipedia.org/wiki/Maze">types of mazes<sup class="print">1</sup></a>: standard, circular, block, number... For this project we'll implement a standard 
             maze without entrance and exit where the goal is to find the shortest path from one position to another. For storing the maze we'll use an array where 1 will be a wall and 0 will be a path.
             <span class="print"><br><sup>1 </sup>https://en.wikipedia.org/wiki/Maze</span>
             <div class="imageRow">
                 <figure>
-                    <img src="images/Maze_Type_Standard.png">
+                    <img src="images/Maze_Type_Standard.png" loading="lazy">
                     <figcaption>Standard maze with entrance and exit</figcaption>
                 </figure>
                 <figure>
-                    <img src="images/Maze_Type_Circular.png">
+                    <img src="images/Maze_Type_Circular.png" loading="lazy">
                     <figcaption>Circular maze</figcaption>
                 </figure>
                 <figure>
-                    <img src="images/Maze_Type_Block.png">
+                    <img src="images/Maze_Type_Block.png" loading="lazy">
                     <figcaption>Block maze</figcaption>
                 </figure>
             </div>
-            <h2>Generating</h2>
+            <h2 id="maze-gen">Generating</h2>
             There are many <a href="https://en.wikipedia.org/wiki/Maze_generation_algorithm">different aproches for randomly generating mazes<sup class="print">1</sup></a> 
-            such as randomized depth-first search, Kruskal's algorithm, Prim's algorithm... The algorithm that I decided to implement is randomized depth-first search with iterative implementation. 
-            And before I implement everything from scratch I search the web and found just what I needed on <a href="https://github.com/Figglewatts/mazegen">Figglewatts's github<sup class="print">2</sup></a>
-            which I modified to suit my needs.
+            such as randomized depth-first search, Kruskal's algorithm, Prim's algorithm... The algorithm that we are going to implement is randomized depth-first search with iterative implementation. 
+            Before we implement everything from scratch we should search the web if there is allredy something similar allready made. I found just what we need on <a href="https://github.com/Figglewatts/mazegen">Figglewatts's github<sup class="print">2</sup></a>
+            which we'll modifiy to suit our needs.
             <p>Since iterative implementation of random dept-first search is implemented using a stack, we have to implement it first before we even think of 
-            making algorithm. A stack is abstract data type which serves as a collection of elements that has two main operations: push (adds element) and pop (removes last added element). 
+            making algorithm. Stack is an abstract data type which serves as a collection of elements that has two main operations: push (adds element) and pop (removes last added element). 
             These two operations are implemented as stack_push and stack_pop. Since there is no built-in implementation of array that automatically resizes in C, we use a pointer to allocated space,
-            which we realocate when it runs out of allocated capacity.
+            which we realocate to double size when it runs out of allocated capacity.
 
             <span class="print"><br><sup>1 </sup>https://en.wikipedia.org/wiki/Maze_generation_algorithm</span>
             <span class="print"><br><sup>2 </sup>https://github.com/Figglewatts/mazegen</span>
-            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/186adc175d9ba912a6d6aff2079ced9d71a6806b/VIN_Misko3_Project/Core/Inc/stack.h#L8-L47")</script>
+            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/949416fb613e5803996c3436a7225f9c649cb38d/VIN_Misko3_Project/Core/Inc/stack.h#L8-L47")</script>
             
-            After implementation of stack, we can implement a interative random dept-first search. The maze that I'm implementing has 2 different axis, x and y axis, 
-            therefore we need 2 stacks to store each axis without over complicating functionalitiy of the stack. For implementation of the algorithm we run a while loop 
-            until one of the stacks is empty, sicne they are the same size. To make the algorithm random we first shuffle the directions of posible moves in current position. 
-            If the planned direction is at the edge or it is allready a path, nothing happens, otherwise a path is made and the position with that direction is pushed to a stack.
-            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/186adc175d9ba912a6d6aff2079ced9d71a6806b/VIN_Misko3_Project/Core/Src/mazeGenerator.c#L24-L92")</script>
+            After implementation of stack, we can implement a interative random dept-first search. The maze that we're implementing has 2 different axis, x and y axis, 
+            therefore we need 2 stacks to store each axis without over complicating functionality of the stack. For implementation of the algorithm we run a while loop 
+            until one of the stack is empty. Which stack we check is not important since they are always the same size. To make the algorithm random we first shuffle the directions of posible moves in current position. 
+            If the planned direction is at the edge or it is allready a path (zero), nothing happens, otherwise a path is made (zero is written in two next cells on planned directions)
+             and the position with that direction is pushed to a stack.
+            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/949416fb613e5803996c3436a7225f9c649cb38d/VIN_Misko3_Project/Core/Src/mazeGenerator.c#L10-L92")</script>
             Since the above algorithm is just for carving the maze, we also need a function to initialize all variables and allocate enough space for a maze of defined
-            size and fill it with walls. When the algorithm is done carving the maze, the generated maze is returned to the main program where we implement the logic for 
+            size and fill it with walls (ones). When the algorithm is done carving the maze, the generated maze is returned to the main program where we implement the logic for 
             player movement and visualise it. 
-            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/186adc175d9ba912a6d6aff2079ced9d71a6806b/VIN_Misko3_Project/Core/Src/mazeGenerator.c#L95-L117")</script>
-           
-            <h2>Visualising</h2>
-            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/186adc175d9ba912a6d6aff2079ced9d71a6806b/VIN_Misko3_Project/Core/Src/mazeGenerator.c#L119-L152")</script>
-
-            <h1 id="game">Game</h1>
-            
-            <h2>Main menu</h2>
-
-            <h2>Player movement</h2>
+            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/949416fb613e5803996c3436a7225f9c649cb38d/VIN_Misko3_Project/Core/Src/mazeGenerator.c#L95-L117")</script>
+            <div class="pagebreak"></div>
+            <h2 id="maze-vis">Visualising</h2>
+            For visualising the maze, we will use <a href="http://embeddedlightning.com/download/reference-guide/">μGUI</a><sup>1</sup>, a free and open source library for embedded systems. The algorithm used for drawing the walls will draw white lines of 
+            defined size with <code>UG_DrawLine</code>. To optimize the algorithm, the bottom and right edge are drawn outside the double for loops. At the end we draw a target position, a green 
+            rectangle with <code>UG_DrawFrame</code> which only draws a border, on top right corner.
+            <span class="print"><br><sup>1 </sup>http://embeddedlightning.com/download/reference-guide/</span>
+            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/949416fb613e5803996c3436a7225f9c649cb38d/VIN_Misko3_Project/Core/Src/mazeGenerator.c#L119-L141")</script>
+            <h1 id="game">Interactions</h1>
+            The program contains of two main interactive scenes, main menu and maze game, with a posibility to quickly add new types of game 
+            and controlls for it.
+            <h2 id="game-menu">Main menu</h2>
+            Main menu is the first thing that you can see when you power-up the Miško. The main part of the main menu are top text, that says "MENU", 
+            and blue rectangles with white arrow on each side of the screen.
+            <div class="center pagebreak">
+                <figure style="width: 372px">
+                    <img src="images/mainmenu.png" loading="lazy">
+                    <figcaption>Main menu</figcaption>
+                </figure>
+            </div>
+            To draw it we first use <code>UG_FillScreen</code> to make the whole screen black. Then we set a foreground and background color to draw the text 
+            with <code>UG_PutString</code> and use <code>UG_FillFrame</code> to draw blue rectangles on each side.
+            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/949416fb613e5803996c3436a7225f9c649cb38d/VIN_Misko3_Project/Core/Src/main.c#L177-L190")</script>
+            Since there are multiple settings for maze game I implemented "pages" witch contains a rounded square border with some 
+            graphics, title and sequential page number on top left. If you want to add a new page, you simply change the amount of pages in predefined variable "pages"
+            and add a new case in the switch statement. Bellow function is used for refreshing the contetn of the page, which means changing
+            sequential number, title, graphics and border. If the page is not defined a default page with a blue border and title "SOON" will be displayed.
+            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/949416fb613e5803996c3436a7225f9c649cb38d/VIN_Misko3_Project/Core/Src/main.c#L129-L174")</script>
+            We also need to implement menu controlls to switch between the pages. To increment the page we will use right button or move the joystick to the right and 
+            to decrement the page we will use left button or move the joystick to the left. Page selection we will implement by ok button or joystick press, which will
+            also call a function to draw all the static content of the game page. <code>joystickSensitivity</code> is used for setting how far you need to move joystick
+            before action is made.
+            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/949416fb613e5803996c3436a7225f9c649cb38d/VIN_Misko3_Project/Core/Src/main.c#L286-L299")</script>
+            We can also implemented touch controls, where pressing the left blue rectangle will decrement the page, right blue rectengle will increment the page and anywhere else will select the page.
+            The touch controlls are not the most accurate on this miško and pressing the touch screen will most likely select the page even if we accurately press the blue rectangles.
+            This is most likely caused by either slightly damaged screen or poor soldering of the screen connector.
+            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/949416fb613e5803996c3436a7225f9c649cb38d/VIN_Misko3_Project/Core/Src/main.c#L245-L255")</script>
+            To draw all the static (not changing) content of the games, we can implement a function that will only be called when the page is selected. 
+            Since we allready defined all the maze variables on pages, we can just group the three cases and use the same functionality for drawing the maze.
+            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/949416fb613e5803996c3436a7225f9c649cb38d/VIN_Misko3_Project/Core/Src/main.c#L219-L241")</script>
+            <h2 id="game-mazeplayer">Maze game</h2>
+            Maze game contains a maze, move counter and a yellow circle which represent current player position.
+            <p>We will implemented three different presets of the maze: easy, normal and hard; which is defined in <code>MainMenuRefresh()</code> shown above. 
+            Easy dificulty will of size 21x13 and have a cell size of 31, with a (5,43) offset and a player circle radius 7. 
+            Normal dificulty will of size 29x19 and have a cell size of 21, with a (12,40) offset and a player circle radius 5.
+            Hard dificulty will of size 51x33 and have a cell size of 12, with a (10,40) offset and a player circle radius 2.
+            <div class="imageRow">
+                <figure>
+                    <img src="images/maze_easy.png" loading="lazy">
+                    <figcaption>Easy dificulty</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/maze_normal.png" loading="lazy">
+                    <figcaption>Normal dificulty</figcaption>
+                </figure>
+                <figure>
+                    <img src="images/maze_hard.png" loading="lazy">
+                    <figcaption>Hard dificulty</figcaption>
+                </figure>
+            </div>
+            For controlls we will use up, down, left and right button or a joystick to move in given direction.
+            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/949416fb613e5803996c3436a7225f9c649cb38d/VIN_Misko3_Project/Core/Src/main.c#L273-L283")</script>
+            Since in a maze you cannot freely move in all directions we also need to implement a logic which will check if in a given 
+            direction is a wall and move the player if there isn't one. When moving a player, we first need to clear the drawn circle in previous
+            position and then draw it on a new position.
+            When player gets to the green square, a new maze get's generated and player position is set back to left bottom square.
+            <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/949416fb613e5803996c3436a7225f9c649cb38d/VIN_Misko3_Project/Core/Src/main.c#L196-L217")</script>
 
             When testing the game I noticed that my joystick has a constant offset of (-6,6) so I added 2 more variables 
-            to joystick.c and joystick.h which fixes this issue and gives more accurate controlls.
+            to joystick.c and joystick.h which fixes this issue and gives more accurate joystick controlls.
 
             <h1 id="case">Case</h1>
             Since standalone Miško is not the most comfortable thing to hold in hands I aslo designed a cases for easier useage of it.
-            The cases were designed in blender and you can find them <a class="noprint" href="https://github.com/Klemen2/VIN-Projekt/tree/main/case">here</a><span class="print">https://github.com/Klemen2/VIN-Projekt/tree/main/case</span> 
-            with .stl files ready to be 3D printed.
+            The cases were designed in blender and you can find them <a class="noprint" href="https://github.com/Klemen2/VIN-Projekt/tree/main/case">here</a><span class="print">https://github.com/Klemen2/VIN-Projekt/tree/main/case</span>.
             <h2>Version 1</h2>
             Version 1 of the case has a few flaws. Before printing the case needs to be scaled to match 3D printer
             tolerances, since it's made for a super tight fit and will need a lot of sanding if you decide not to do so.
@@ -138,31 +216,29 @@
             use appropiet screws, i'm using 10mm long screws Ø2 that I got from an old Lenovo laptop.
             <div class="imageRow">
                 <figure>
-                    <img src="images/v1_front.png">
+                    <img src="images/v1_front.png" loading="lazy">
                     <figcaption>Case version 1 - front side</figcaption>
                 </figure>
                 <figure>
-                    <img src="images/v1_back.png">
+                    <img src="images/v1_back.png" loading="lazy">
                     <figcaption>Case version 1 - back side</figcaption>
                 </figure>
             </div>
             <h2>Version 2</h2>
             In version 2 of the case I fixed issues that I had with the version 1 of the case, such as scaling, bigger hole for
-            joystick and pins, bigger front buttons (the back reset button is still a small so you don't press it by accident).
+            pins, bigger front buttons (the back reset button is still a small so you don't press it by accident).
             I also removed the screw hole next to the reset button since there just isn't enough space for it.
-            <br><b>This vesrion of the case has not been tested yet.</b>
-            <!--
+            <p>The only problem that remains the same is too small hole for the joystick, even though I made it larger, but it can be fixed by trimming the edge of the hole a little.
             <div class="imageRow">
                 <figure>
-                    <img src="case/v2_front.png">
+                    <img src="images/v2_front.png" loading="lazy">
                     <figcaption>Case version 2 - front side</figcaption>
                 </figure>
                 <figure>
-                    <img src="case/v2_back.png">
+                    <img src="images/v2_back.png" loading="lazy">
                     <figcaption>Case version 2 - back side</figcaption>
                 </figure>
             </div>
-            -->
         </div>
     </div>
     <footer>
@@ -232,8 +308,9 @@
                     <span class="padding-left noprint">Buy me a Ko-fi</span>
                     <span class="padding-left print">https://ko-fi.com/klemen2</span>
                 </a>
+              
             </div>
-            <div class="page"></div>
+            
         </div>
     </footer>
 </body>
