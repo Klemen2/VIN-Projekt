@@ -133,20 +133,9 @@ void drawMaze(int* maze, int sizeX, int sizeY, int startX, int startY, int cellS
 		}
 	}
 	y = startY+(int)(sizeY/2)*cellSize;
-	int maxy = (sizeY-1)*sizeX;
-	for(int i = 0; i<sizeX-1; i+=2){
-		if(maze[maxy+i]==1 && maze[maxy+i+1]==1){
-			x = startX+(int)(i/2)*cellSize;
-			UG_DrawLine(x,y,x+cellSize,y,C_WHITE);
-		}
-	}
 	x = startX+(int)(sizeX/2)*cellSize;
-	for(int i = 0; i<sizeY-1; i+=2){
-		if(maze[i*sizeX+sizeX-1]==1 && maze[(i+1)*sizeX+sizeX-1]==1){
-			y = startY+(int)(i/2)*cellSize;
-			UG_DrawLine(x,y,x,y+cellSize,C_WHITE);
-		}
-	}
+	UG_DrawLine(startX,y,x,y,C_WHITE);
+	UG_DrawLine(x,startY,x,y,C_WHITE);
 
 	if(finish) UG_DrawFrame(x-cellSize+1, startY+1, x-1, startY+cellSize-1, C_GREEN);
 }

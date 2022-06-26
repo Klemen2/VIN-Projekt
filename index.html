@@ -68,7 +68,7 @@
             </div>
             <h1 id="maze">Maze</h1>
             There are many different <a href="https://en.wikipedia.org/wiki/Maze">types of mazes<sup class="print">1</sup></a>: standard, circular, block, number... For this project I decided to go for a standard 
-            maze without entrance and exit where the goal is to find the shortest path from one position to another.
+            maze without entrance and exit where the goal is to find the shortest path from one position to another. For storing the maze we'll use an array where 1 will be a wall and 0 will be a path.
             <span class="print"><br><sup>1 </sup>https://en.wikipedia.org/wiki/Maze</span>
             <div class="imageRow">
                 <figure>
@@ -88,13 +88,24 @@
             There are many <a href="https://en.wikipedia.org/wiki/Maze_generation_algorithm">different aproches for randomly generating mazes<sup class="print">1</sup></a> 
             such as randomized depth-first search, Kruskal's algorithm, Prim's algorithm... The algorithm that I decided to implement is randomized depth-first search with iterative implementation. 
             And before I implement everything from scratch I search the web and found just what I needed on <a href="https://github.com/Figglewatts/mazegen">Figglewatts's github<sup class="print">2</sup></a>
-            which I modified a little to suit my needs.
-            <p>Iterative implementation of dept-first search is implemented using a stack which we have to implement first before we even think of 
-            making algorithm. 
+            which I modified to suit my needs.
+            <p>Since iterative implementation of random dept-first search is implemented using a stack, we have to implement it first before we even think of 
+            making algorithm. A stack is abstract data type which serves as a collection of elements that has two main operations: push (adds element) and pop (removes last added element). 
+            These two operations are implemented as stack_push and stack_pop. Since there is no built-in implementation of array that automatically resizes in C, we use a pointer to allocated space,
+            which we realocate when it runs out of allocated capacity.
+
             <span class="print"><br><sup>1 </sup>https://en.wikipedia.org/wiki/Maze_generation_algorithm</span>
             <span class="print"><br><sup>2 </sup>https://github.com/Figglewatts/mazegen</span>
             <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/186adc175d9ba912a6d6aff2079ced9d71a6806b/VIN_Misko3_Project/Core/Inc/stack.h#L8-L47")</script>
+            
+            After implementation of stack, we can implement a interative random dept-first search. The maze that I'm implementing has 2 different axis, x and y axis, 
+            therefore we need 2 stacks to store each axis without over complicating functionalitiy of the stack. For implementation of the algorithm we run a while loop 
+            until one of the stacks is empty, sicne they are the same size. To make the algorithm random we first shuffle the directions of posible moves in current position. 
+            If the planned direction is at the edge or it is allready a path, nothing happens, otherwise a path is made and the position with that direction is pushed to a stack.
             <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/186adc175d9ba912a6d6aff2079ced9d71a6806b/VIN_Misko3_Project/Core/Src/mazeGenerator.c#L24-L92")</script>
+            Since the above algorithm is just for carving the maze, we also need a function to initialize all variables and allocate enough space for a maze of defined
+            size and fill it with walls. When the algorithm is done carving the maze, the generated maze is returned to the main program where we implement the logic for 
+            player movement and visualise it. 
             <script>embed("https://github.com/Klemen2/VIN-Projekt/blob/186adc175d9ba912a6d6aff2079ced9d71a6806b/VIN_Misko3_Project/Core/Src/mazeGenerator.c#L95-L117")</script>
            
             <h2>Visualising</h2>

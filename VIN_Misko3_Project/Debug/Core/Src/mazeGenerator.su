@@ -7,4 +7,4 @@
 ../Core/Src/mazeGenerator.c:10:6:shuffle	32	static
 ../Core/Src/mazeGenerator.c:24:6:carve_maze	40	static
 ../Core/Src/mazeGenerator.c:95:6:getMaze	48	static
-../Core/Src/mazeGenerator.c:119:6:drawMaze	72	static
+../Core/Src/mazeGenerator.c:119:6:drawMaze	56	static
